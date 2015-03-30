@@ -14,11 +14,22 @@ var moment=require('moment');
 
 
 var getRequestHandler = function (req, res) {
-  console.log('Got HTTP GET Request');
-  res.writeHeader(200, { 'Content-Type': 'text/html' });
-  res.write(fs.readFileSync('client.html'));
-  res.write(fs.readFileSync('ani.jpg'));
-  res.end();
+  if (req.url==='/'){
+    console.log('Got HTTP GET Request');
+    res.writeHeader(200, { 'Content-Type': 'text/html' });
+    res.write(fs.readFileSync('client.html'));
+    res.end();
+  }
+  else if(req.url==='/ani.jpg'){
+    res.write(fs.readFileSync('ani.jpg'));
+    res.end();
+  }
+  else if(req.url==='/cartman.jpg'){
+    res.write(fs.readFileSync('cartman.jpg'));
+    res.end();
+  }
+  
+  
 };
 
 var postRequestHandler = function (req, res) {
