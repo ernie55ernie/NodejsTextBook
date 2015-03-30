@@ -1,0 +1,225 @@
+<!doctype html>
+<title>Test Client Web Page</title>
+<meta charset="utf-8">
+
+<h3>留言板</h3>
+nickname<input id="user-name" autofocus><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="user-input" autofocus>
+<button id="submit-btn">Submit</button>
+<button id="refresh-btn">Refresh</button>
+<form>
+sort by
+<input type="radio" name="sorting" id="c2" value="timeL" checked="true"> latest
+<input type="radio" name="sorting" id="c1" value="timeF"> first
+<input type="radio" name="sorting" id="c3" value="nickname"> nickname
+<input type="radio" name="sorting" id="c4" value="length"> length
+</form>
+<form>
+<input type="radio" name="number" id="n1" value="timeL" checked="true"> 10
+<input type="radio" name="number" id="n2" value="timeF"> 20
+<input type="radio" name="number" id="all" value="length" checked="true"> all
+</form>
+<input type="image" src="ani.jpg"  alt="send" name="img1" id="img1"
+onclick="send();" width="75" height="100"/>
+<input type="image" src="cartman.jpg"  alt="send" name="img2" id="img2"
+onclick="send2();" width="75" height="100"/>
+<ul id="list-of-data"></ul>
+
+<script>
+var inputElmname =document.getElementById('user-name');
+var inputElm = document.getElementById('user-input');
+var inputimg1= document.getElementById('img1');
+var inputimg2= document.getElementById('img2');
+var submitBtn = document.getElementById('submit-btn');
+var refreshBtn = document.getElementById('refresh-btn');
+var listElm = document.getElementById('list-of-data');
+var nicknametocode=function(nickname){
+	var number=0;
+	var length=nickname.toString().length;
+	var name=nickname.toString();
+	for(var i=0;i<length;i++){
+		number=number+name.substr(i,i+1).charCodeAt(0);
+	}
+	return number;
+}
+
+var retrieveAllDataFromServer = function () {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://127.0.0.1:1234/retrieve');
+  xhr.onload = function () {
+   console.log('Got response of HTTP POST /retrieve:' +this.responseText);
+   
+   var JSON_string = this.responseText;
+   var arr = JSON.parse(JSON_string);
+   var number;
+   if(document.getElementById('n1').checked){var L=[10,arr.length];number=Math.min.apply(null,L);}
+   else if(document.getElementById('n2').checked){var L=[20,arr.length];number=Math.min.apply(null,L);}
+   else{number=arr.length}
+   if(document.getElementById('c2').checked){
+   	   for (var i = 0; i < number; i += 1) {
+   	   if(JSON.parse(arr[i])[1].indexOf("jpg")>0){
+   	   	  var liElm = document.createElement('li');
+   	   	  var img=document.createElement("img");
+   	   	  img.setAttribute('src',JSON.parse(arr[i])[1]);
+   	   	  img.setAttribute('height','75');
+   	   	  img.setAttribute('height','100');
+          liElm.textContent =JSON.parse(arr[i])[0]+" : ";
+          listElm.appendChild(liElm);
+          listElm.appendChild(img);
+   	   }
+   	   else{
+         var liElm = document.createElement('li');
+
+         liElm.textContent =JSON.parse(arr[i])[0]+" : "+JSON.parse(arr[i])[1]+" at "+JSON.parse(arr[i])[2];
+         listElm.appendChild(liElm);
+       }
+   	 }
+     
+   }//c2
+   else if(document.getElementById('c1').checked){
+     for (var i = arr.length-1 ;i > (arr.length-number-1); i -= 1) {
+     	if(JSON.parse(arr[i])[1].indexOf("jpg")>0){
+   	   	  var liElm = document.createElement('li');
+   	   	  var img=document.createElement("img");
+   	   	  img.setAttribute('src',JSON.parse(arr[i])[1]);
+   	   	  img.setAttribute('height','75');
+   	   	  img.setAttribute('height','100');
+          liElm.textContent =JSON.parse(arr[i])[0]+" : ";
+          listElm.appendChild(liElm);
+          listElm.appendChild(img);
+   	   }
+   	   else{
+   	   	var liElm = document.createElement('li');
+        liElm.textContent =JSON.parse(arr[i])[0]+" : "+JSON.parse(arr[i])[1]+" at "+JSON.parse(arr[i])[2];
+        listElm.appendChild(liElm);
+   	   }
+     }
+   }//c1
+   else if(document.getElementById('c3').checked){
+     var l=1;//string length
+     var check=0;
+     while(check<number){
+     for (var i=0; i<arr.length; i += 1) {
+       if(check>number-1){break;}
+       if(l==nicknametocode( JSON.parse(arr[i])[0])){
+       	if(JSON.parse(arr[i])[1].indexOf("jpg")>0){
+   	   	  var liElm = document.createElement('li');
+   	   	  var img=document.createElement("img");
+   	   	  img.setAttribute('src',JSON.parse(arr[i])[1]);
+   	   	  img.setAttribute('height','75');
+   	   	  img.setAttribute('height','100');
+          liElm.textContent =JSON.parse(arr[i])[0]+" : ";
+          listElm.appendChild(liElm);
+          listElm.appendChild(img);
+          check+=1;
+   	   }
+   	   else{
+   	   	var liElm = document.createElement('li');
+         liElm.textContent =JSON.parse(arr[i])[0]+" : "+JSON.parse(arr[i])[1]+" at "+JSON.parse(arr[i])[2];
+         listElm.appendChild(liElm);
+         check+=1;//find one
+   	   }
+         
+
+       }
+     }
+     l+=1;
+     }
+   }//c3
+   else {
+     var l=1;//string length
+     var check=0;
+     while(check<number){
+     for (var i=0; i<arr.length; i += 1) {
+       if(check>number-1){break;}
+       if(l==JSON.parse(arr[i])[1].toString().length){
+       	if(JSON.parse(arr[i])[1].indexOf("jpg")>0){
+   	   	  var liElm = document.createElement('li');
+   	   	  var img=document.createElement("img");
+   	   	  img.setAttribute('src',JSON.parse(arr[i])[1]);
+   	   	  img.setAttribute('height','75');
+   	   	  img.setAttribute('height','100');
+          liElm.textContent =JSON.parse(arr[i])[0]+" : ";
+          listElm.appendChild(liElm);
+          listElm.appendChild(img);
+          check+=1;
+   	   }
+   	   else{
+   	   	var liElm = document.createElement('li');
+         liElm.textContent =JSON.parse(arr[i])[0]+" : "+JSON.parse(arr[i])[1]+" at "+JSON.parse(arr[i])[2];
+         listElm.appendChild(liElm);
+         check+=1;//find one
+   	   }
+         
+       }
+     }
+     l+=1;
+     }
+}//c4
+
+};//onload
+xhr.send();
+};//retrieveAllDataFromServer
+
+refreshBtn.addEventListener('click', function () {
+while (listElm.firstChild) {
+listElm.removeChild(listElm.firstChild);
+}
+retrieveAllDataFromServer();
+});
+
+retrieveAllDataFromServer();
+
+var postDataToServer = function (data) {
+var xhr = new XMLHttpRequest();
+xhr.open('POST', 'http://127.0.0.1:1234/push');
+xhr.onload = function () {
+console.log('Got response of POST /push:' +
+this.responseText);
+};
+xhr.send(data);
+};
+
+submitBtn.addEventListener('click', function () {
+	inputElmname.value=inputElmname.value.trim();
+    inputElm.value = inputElm.value.trim();
+    if (inputElmname.value !==''){
+    	location.reload();
+        if (inputElm.value !== '') {
+        	var arr=[inputElmname.value,inputElm.value];
+            postDataToServer(JSON.stringify(arr));
+            inputElm.value = '';
+        }
+    }
+    else{
+	    alert("who are you!!!");
+    }
+});
+
+var send=function(){
+	inputElmname.value=inputElmname.value.trim();
+	if(inputElmname.value!==''){
+		location.reload();
+		var arr=[inputElmname.value,"ani.jpg"];
+		postDataToServer(JSON.stringify(arr));
+	}
+	//alert("hello");
+	else{
+	    alert("who are you!!!");
+    }
+
+}
+var send2=function(){
+	inputElmname.value=inputElmname.value.trim();
+	if(inputElmname.value!==''){
+		location.reload();
+		var arr=[inputElmname.value,"cartman.jpg"];
+		postDataToServer(JSON.stringify(arr));
+	}
+	//alert("hello");
+	else{
+	    alert("who are you!!!");
+    }
+
+}
+</script>
