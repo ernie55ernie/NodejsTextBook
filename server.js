@@ -34,42 +34,11 @@ app.use(express.static(__dirname + '/views'));
 app.use('/', routes);
 app.use('/users', users);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
-
 app.get('/', function (req, res) {
-  res.sendfile('client.html');
+  res.sendfile('views/client.html');
 });
 app.get('/login', function (req, res) {
-  res.sendfile('login.html');
+  res.sendfile('views/login.html');
 });
 
 app.post('/retrieve', function (req, res){
@@ -115,11 +84,46 @@ app.post('/push', function (req, res){
 });
 
 app.get('*', function(req,res){
- res.sendfile(__dirname + '/client.html');
+ res.sendfile('views/client.html');
 });
 
-http.createServer(app).listen(1234, function () {
 
-  console.log('Example app listening at http://%s:%s', '127.0.0.1', '1234')
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
-})
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+
+var server = app.listen(1234, function () {
+
+  var host = server.address().address
+  var port = server.address().port
+
+  console.log('Example app listening at http://%s:%s', host, port)
+
+});
