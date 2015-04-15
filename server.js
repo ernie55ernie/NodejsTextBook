@@ -1,4 +1,3 @@
-
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -21,6 +20,8 @@ app.set('trust proxy', 'loopback');
 app.set('views', __dirname + '/views');
 //app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
+app.set('ipaddress', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1")
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -119,7 +120,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-var server = app.listen(1234, function () {
+var server = app.listen(app.get('port'), app.get('ipaddress'),function () {
 
   var host = server.address().address
   var port = server.address().port
