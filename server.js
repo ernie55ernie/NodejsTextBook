@@ -14,7 +14,8 @@ var api = require('./routes/api');
 
 var app = module.exports = express();
 var redis = require('redis');
-redis_client = redis.createClient();
+var redis_client = redis.createClient(process.env.OPENSHIFT_REDIS_DB_PORT || 6379, process.env.OPENSHIFT_REDIS_DB_HOST || "127.0.0.1");
+redis_client.auth('bn9QdYKy8GDg');
 
 // view engine setup
 app.set('trust proxy', 'loopback');
