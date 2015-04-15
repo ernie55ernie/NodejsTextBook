@@ -4,8 +4,3 @@ config/local.js
 
 # webstorm setting
 .idea
-
-.openshift/*
-deplist.txt
-
-*.exe
