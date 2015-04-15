@@ -45,7 +45,7 @@ var nicknametocode=function(nickname){
 
 var retrieveAllDataFromServer = function () {
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://127.0.0.1:1234/retrieve');
+  xhr.open('POST', '/retrieve');
   xhr.onload = function () {
    console.log('Got response of HTTP POST /retrieve:' +this.responseText);
    
@@ -172,7 +172,7 @@ retrieveAllDataFromServer();
 
 var postDataToServer = function (data) {
 var xhr = new XMLHttpRequest();
-xhr.open('POST', 'http://127.0.0.1:1234/push');
+xhr.open('POST', '/push');
 xhr.onload = function () {
 console.log('Got response of POST /push:' +
 this.responseText);
