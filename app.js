@@ -73,6 +73,9 @@ if (env === 'production') {
 // serve index and view partials
 app.get('/', routes.index);
 
+//API
+app.get('/api/printtree', api.printTree);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -102,6 +105,7 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
+  console.log(err);
 });
 
 // redirect all others to the index (HTML5 history)
