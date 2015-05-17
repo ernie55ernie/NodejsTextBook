@@ -1,19 +1,17 @@
 {
   "name": "NodejsTextBook",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "NodejsTextBook",
   "keywords": [
-    "OpenShift",
     "Node.js",
-    "application",
-    "openshift"
+    "application"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "name": "Ernie",
+    "email": "b01505025@ntu.edu.tw",
+    "url": "http://ernie55ernie.github.io/"
   },
-  "homepage": "http://www.openshift.com/",
+  "homepage": "http://ernie55ernie.github.io/",
   "repository": {
     "type": "git",
     "url": "https://github.com/openshift/origin-server"
@@ -28,13 +26,15 @@
     "debug": "~2.1.1",
     "ejs": "^2.3.1",
     "express": "~4.12.2",
-    "jade": "~1.9.2",
+    "express-error-handler": "^1.0.1",
+    "method-override": "^2.3.3",
     "moment": "^2.10.2",
     "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "bundleDependencies": [],
   "private": true,
-  "main": "server.js"
+  "main": "app.js"
 }

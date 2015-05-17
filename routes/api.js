@@ -1,4 +1,4 @@
-var redis = require('redis');
+/*var redis = require('redis');
 var redis_client = redis.createClient();
 
 exports.retrieve = function (req, res) {
@@ -42,4 +42,4 @@ exports.push = function(req, res){
         }
       });
     });
-}
+}*/
