@@ -30,6 +30,7 @@
     "method-override": "^2.3.3",
     "moment": "^2.10.2",
     "morgan": "~1.5.1",
+    "pat-tree": "^1.0.5",
     "serve-favicon": "~2.2.0",
     "underscore": "^1.8.3"
   },
