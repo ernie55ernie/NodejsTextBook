@@ -72,9 +72,12 @@ if (env === 'production') {
 
 // serve index and view partials
 app.get('/', routes.index);
+app.get('/googlemap', routes.googlemap);
+app.get('/d3circle', routes.d3circle);
 
 //API
-app.get('/api/printtree', api.printTree);
+app.get('/api/printTree', api.printTree);
+//app.get('/api/d3circle', api.d3circle);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
